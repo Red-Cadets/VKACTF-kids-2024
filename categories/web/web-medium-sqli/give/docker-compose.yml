@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  shop:
+    container_name: "shop"
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./flag:/flag:ro
+    ports:
+      - "9090:8080"
+    restart: always
+    depends_on:
+      - magdb
+    networks:
+      - magnetwork
+
+  magdb:
+    container_name: magdb
+    image: postgres:15.3
+    command: "postgres -c max_connections=200"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 127.0.0.1:5432:5432 
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pg_magtask:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U maguser -d magname"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+    networks:
+      - magnetwork
+
+volumes:
+  "pg_magtask":
+
+networks:
+  magnetwork:
+    driver: bridge

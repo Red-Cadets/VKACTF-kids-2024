@@ -1,0 +1,61 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная - Товары</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/favicon1.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <h1>Товары</h1>
+
+
+        <input type="checkbox" id="menu-toggle">
+
+
+        <label class="burger-menu" for="menu-toggle"></label>
+
+
+        <nav>
+            <a href="profile">Профиль</a>
+            <a href="cart">Корзина</a>
+            <a href="orders">Активные заказы</a>
+            <a href="orders_history">История заказов</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="items">
+            {{range .Items}}
+                <div class="item">
+                    <h2>{{.Name}}</h2>
+                    <img src="{{.ImageURL}}" alt="{{.Name}}">
+                    <p>Цена: {{.Price}} рублей</p>
+                    <button onclick="addToCart('{{.ID}}')">Добавить в корзину</button>
+                </div>
+            {{else}}
+                <p>Товаров нет</p>
+            {{end}}
+        </div>
+    </main>
+
+    <script>
+        function addToCart(itemId) {
+            fetch(`/add_to_cart?item_id=${itemId}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Товар добавлен в корзину");
+                    } else {
+                        alert("Ошибка при добавлении товара в корзину");
+                    }
+                })
+                .catch(error => console.error("Ошибка запроса:", error));
+        }
+    </script>
+
+</body>
+</html>

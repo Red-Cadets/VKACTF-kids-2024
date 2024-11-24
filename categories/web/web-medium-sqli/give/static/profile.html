@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/favicon1.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <h1>Профиль пользователя</h1>
+
+
+        <input type="checkbox" id="menu-toggle">
+
+
+        <label class="burger-menu" for="menu-toggle"></label>
+
+
+        <nav>
+            <a href="/">Главная</a>
+            <a href="cart">Корзина</a>
+            <a href="orders">Активные заказы</a>
+            <a href="orders_history">История заказов</a>
+        </nav>
+    </header>
+
+    <main>
+        <form id="profile-form" action="/update_profile" method="POST">
+            <label for="name">ФИО:</label>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="address">Адрес:</label>
+            <input type="text" id="address" name="address" required><br>
+
+            <label for="phone">Номер телефона:</label>
+            <input type="tel" id="phone" name="phone" pattern="\d+" title="Only numbers are allowed" required><br>
+
+            <button type="submit">Сохранить</button>
+        </form>
+    </main>
+</body>
+</html>

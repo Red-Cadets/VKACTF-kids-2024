@@ -1,0 +1,455 @@
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* Шапка сайта */
+header {
+    background-color: #ff6f61;
+    color: white;
+    padding: 15px 20px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Иконка-бургер для меню */
+.burger-menu {
+    width: 30px;
+    height: 30px;
+    background: url('favicon.ico') no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+/* Скрытое меню по умолчанию */
+nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #ff6f61;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1;
+}
+
+nav a {
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #ff3f30;
+}
+
+/* Управление видимостью меню через чекбокс */
+#menu-toggle:checked + .burger-menu + nav {
+    display: block;
+}
+
+/* Скрытие чекбокса */
+#menu-toggle {
+    display: none;
+}
+
+/* Основное содержание */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Заголовки */
+h1, h2 {
+    color: #333;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #ff6f61;
+}
+
+/* Секция товаров */
+.items {
+    display: flex;
+    gap: 20px;               /* Расстояние между карточками */
+    flex-wrap: wrap;              /* Позволяет переносить карточки на следующую строку */
+    justify-content: center;      /* Центрирует карточки по горизонтали */
+    padding: 20px 0;
+}
+
+.item {
+    flex: 0 0 auto;          /* Фиксирует ширину карточек и предотвращает их сжатие */
+    width: 250px;            /* Ширина каждой карточки */
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.item:hover {
+    transform: translateY(-5px);
+}
+
+.item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.item h2 {
+    font-size: 18px;
+    color: #ff6f61;
+    margin: 15px 0 10px;
+}
+
+.item p {
+    color: #333;
+    font-size: 16px;
+}
+
+button {
+    background-color: #ff6f61;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #ff3f30;
+    transform: scale(1.02);
+}
+
+/* Карточка заказа */
+#order-history {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.order-card {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+}
+
+.order-card h3 {
+    color: #ff6f61;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* Формы и кнопки */
+form {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    font-size: 14px;
+    color: #333;
+}
+
+form input, form button {
+    display: block;
+    width: calc(100% - 20px); /* Уменьшаем ширину, чтобы учесть padding и border */
+    margin: 8px 0;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    box-sizing: border-box; /* Гарантирует, что padding и border входят в ширину */
+}
+
+form input {
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s;
+}
+
+form input:focus {
+    border-color: #ff6f61;
+    outline: none;
+}
+
+form button {
+    background-color: #ff6f61;
+    color: white;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+form button:hover {
+    background-color: #ff3f30;
+    transform: scale(1.02);
+}
+
+/* Секция корзины */
+#cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* Стиль для каждого товара в корзине */
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.cart-item:hover {
+    transform: translateY(-3px);
+}
+
+/* Изображение товара */
+.cart-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Информация о товаре */
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cart-item-info p {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+}
+
+.cart-item-info p.item-name {
+    font-weight: bold;
+    color: #ff6f61;
+}
+
+.cart-item-info p.item-quantity {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Пустая корзина */
+#cart-items p.empty-cart {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    font-style: italic;
+}
+/* Кнопка удаления товара */
+.remove-item-button {
+    background-color: #ff3f30;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-left: auto; /* Отодвигает кнопку вправо */
+}
+
+.remove-item-button:hover {
+    background-color: #d8362a;
+    transform: scale(1.05);
+}
+
+/* Стили для блока товаров в заказах */
+.order-item {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.order-item:hover {
+    transform: translateY(-3px);
+}
+
+/* Изображение товара */
+.order-item img {
+    width: 80px;               /* Фиксированная ширина для всех изображений */
+    height: 80px;              /* Фиксированная высота для всех изображений */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+/* Информация о товаре */
+.order-item .item-info {
+    flex-grow: 1;              /* Заставляет блок информации занимать оставшееся пространство */
+}
+
+.order-item .item-info p {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+}
+
+/* Название товара */
+.order-item .item-name {
+    font-weight: bold;
+    font-size: 18px;
+    color: #ff6f61;
+}
+
+/* Количество товара */
+.order-item .item-quantity {
+    color: #555;
+    font-size: 16px;
+}
+
+/* Добавим немного пространства между товарами */
+.order-item:not(:last-child) {
+    margin-bottom: 10px;
+}
+/* Основные стили для страницы истории заказов */
+#orders-history {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Карточка для каждого заказа */
+.order {
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.order:hover {
+    transform: translateY(-5px);
+}
+
+/* Заголовок для каждого заказа */
+.order h3 {
+    font-size: 22px;
+    color: #ff6f61;
+    margin-bottom: 15px;
+}
+
+/* Информация о заказе */
+.order p {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.order .order-info {
+    margin-bottom: 15px;
+}
+
+/* Стиль для информации о каждом товаре в заказе */
+.order-item {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.order-item:hover {
+    transform: translateY(-3px);
+}
+
+/* Изображение товара */
+.order-item img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 15px;
+}
+
+/* Информация о товаре */
+.order-item .item-info {
+    flex-grow: 1;
+}
+
+.order-item .item-info p {
+    margin: 5px 0;
+}
+
+.order-item .item-name {
+    font-weight: bold;
+    color: #ff6f61;
+}
+
+.order-item .item-quantity {
+    color: #555;
+}
+
+/* Разделение между заказами */
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}

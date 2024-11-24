@@ -1,0 +1,71 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+          MYSQL_ROOT_PASSWORD: qwerty
+          MYSQL_DATABASE: vkakids
+    expose:
+      - "3306"
+    volumes:
+      - db_data:/var/lib/sql3
+    command:
+      --bind-address=0.0.0.0
+    networks:
+      - app-network
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 1G
+          pids: 100
+
+
+      
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go_app_container
+    environment: 
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=qwerty
+      - DB_NAME=vkakids
+      - DB_PORT=3306
+    depends_on: 
+      - db
+    ports:
+      - "60888:60888"
+    networks:
+      - app-network
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 1G
+          pids: 100
+
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    container_name: python_bot_container
+    ports:
+    - 7776:7776   
+    networks:
+    - app-network
+    volumes:
+    - ./bot/flag:/app/flag:ro
+    deploy:
+      resources:
+        limits:
+          cpus: '3.5'
+          memory: 1G
+          pids: 100
+
+volumes:
+  db_data:
+
+networks:
+  app-network:

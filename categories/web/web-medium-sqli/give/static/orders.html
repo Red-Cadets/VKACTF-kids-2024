@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Активные заказы</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/favicon1.ico" type="image/x-icon">
+    <style>
+        .order {
+            position: relative;
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .progress-bar-container {
+            position: relative;
+            height: 20px;
+            background: #f3f3f3;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            transition: width 5s linear;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .order.delivered {
+            background-color: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+        .update-address-form {
+            margin-top: 15px;
+        }
+
+        .update-address-form label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .update-address-form input[type="text"] {
+            padding: 5px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .update-address-form button {
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .update-address-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Активные заказы</h1>
+        <input type="checkbox" id="menu-toggle">
+        <label class="burger-menu" for="menu-toggle"></label>
+        <nav>
+            <a href="/">Главная</a>
+            <a href="profile">Профиль</a>
+            <a href="cart">Корзина</a>
+            <a href="orders_history">История заказов</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="confirmed-orders">
+            <h2>Заказы в обработке</h2>
+            {{range .}}
+            <div class="order" data-is-delivered="{{.IsDelivered}}">
+                <p>Заказ ID: {{.ID}}</p>
+                <p>ФИО: {{.Name}}</p>
+                <p>Телефон: {{.Phone}}</p>
+                <p>Адрес: {{.Address}}</p>
+                <p>Комментарий: {{.Comment}}</p>
+                <p>Промокод: {{.PromoCode}}</p>
+                {{range .Items}}
+                <div class="order-item">
+                    <p>Название: {{.Name}}</p>
+                    <img src="{{.ImageURL}}" alt="{{.Name}}">
+                    <p>Количество: {{.Quantity}}</p>
+                </div>
+                {{else}}
+                <p>В заказе нет товаров</p>
+                {{end}}
+                <p>Время доставки: {{.DeliveryTime}}</p>
+
+                <div class="progress-bar-container">
+                    <div class="progress-bar"></div>
+                    <div class="progress-text">В пути...</div>
+                </div>
+                <form class="update-address-form" action="/update_address" method="post">
+                    <input type="hidden" name="order_id" value="{{.ID}}">
+                    <label for="new_address_{{.ID}}">Изменить адрес:</label>
+                    <input type="text" id="new_address_{{.ID}}" name="new_address" required>
+                    <button type="submit">Обновить адрес</button>
+                </form>
+            </div>
+            <hr>
+            {{else}}
+                <p>Активные заказы отсутствуют</p>
+            {{end}}
+        </section>
+    </main>
+
+    <script>
+        function showDeliveryProgress() {
+            const orders = document.querySelectorAll('.order');
+            orders.forEach(order => {
+                const isDelivered = order.getAttribute('data-is-delivered') === "false";
+                if (isDelivered) {
+                    const progressBar = order.querySelector('.progress-bar');
+                    const progressText = order.querySelector('.progress-text');
+                    setTimeout(() => {
+                        progressText.textContent = "Доставлено!";
+                        order.classList.add('delivered');
+
+                   }, 5000);
+                }
+            });
+        }
+
+        function setupAddressForms() {
+            const forms = document.querySelectorAll('.update-address-form');
+            forms.forEach(form => {
+                form.addEventListener('submit', event => {
+                    event.preventDefault();
+
+                    const formData = new FormData(form);
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Адрес успешно обновлен!');
+                            location.reload();
+                        } else {
+                            alert('Ошибка обновления адреса.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        alert('Ошибка отправки данных.');
+                    });
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showDeliveryProgress();
+            setupAddressForms();
+        });
+    </script>
+</body>
+</html>

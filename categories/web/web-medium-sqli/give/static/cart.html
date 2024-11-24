@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/favicon1.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <h1>Корзина</h1>
+
+
+        <input type="checkbox" id="menu-toggle">
+
+
+        <label class="burger-menu" for="menu-toggle"></label>
+
+
+        <nav>
+            <a href="/">Главная</a>
+            <a href="profile">Профиль</a>
+            <a href="orders">Активные заказы</a>
+            <a href="orders_history">История заказов</a>
+        </nav>
+    </header>
+
+    <main>
+        <form id="cart-form" action="/place_order" method="POST">
+            <h2>Ваши товары</h2>
+            <div id="cart-items">
+                {{range .Cart}}
+                    <div class="cart-item">
+                        <img src="{{.ImageURL}}" alt="{{.Name}}">
+                        <div class="cart-item-info">
+                            <p class="item-name">Название: {{.Name}}</p>
+                            <p>Товар ID: {{.ItemID}}</p>
+                            <p class="item-quantity">Количество: {{.Quantity}}</p>
+                        </div>
+                        <button class="remove-item-button" onclick="removeFromCart('{{.ItemID}}')">Удалить</button>
+                    </div>
+                {{else}}
+                    <p class="empty-cart">Корзина пуста</p>
+                {{end}}
+            </div>
+
+            <label for="name">ФИО:</label>
+            <input type="text" id="name" name="name" value="{{.Profile.Name}}" required><br>
+
+            <label for="phone">Номер телефона:</label>
+            <input type="tel" id="phone" name="phone" pattern="\d+" title="Only numbers are allowed" value="{{.Profile.Phone}}" required><br>
+
+            <label for="address">Адрес:</label>
+            <input type="text" id="address" name="address" value="{{.Profile.Address}}" required><br>
+
+            <label for="comment">Комментарий к заказу:</label>
+            <input type="text" id="comment" name="comment" required><br>
+
+            <label for="promo_code">Промокод:</label>
+            <input type="text" id="promo_code" name="promo_code"><br>
+
+            <button type="submit">Оформить заказ</button>
+        </form>
+    </main>
+    <script>
+        function removeFromCart(itemId) {
+            fetch(`/remove_cart?item_id=${itemId}`, { method: 'POST'})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Товар удален из корзины");
+                        location.reload();
+                    } else {
+                        alert("Ошибка при удалении товара из корзины");
+                    }
+                })
+                .catch(error => console.error("Ошибка запроса:", error));
+        }
+    </script>
+</body>
+</html>

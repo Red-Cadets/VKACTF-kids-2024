@@ -1,0 +1,73 @@
+version: "3.9"
+
+services:
+  server:
+    build:
+      context: ./server
+    expose:
+      - "8080"
+    depends_on:
+      - redis
+    deploy:
+      resources:
+        limits:
+          cpus: '4.50'
+          memory: 2G
+          pids: 60
+    restart: always
+
+  admin:
+    build: ./admin
+    expose:
+      - "3017"
+    depends_on:
+      - redis
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 250M
+          pids: 12
+
+  redis:
+    image: redis:latest
+    expose:
+      - "6379"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '3.00'
+          memory: 2G
+          pids: 40
+
+  nginx:
+    container_name: proxy_nginx
+    image: nginx:latest
+    ports:
+      - '16969:80'
+    depends_on:
+      - server
+      - client
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '5.00'
+          memory: 2G
+          pids: 20
+
+  client:
+    build:
+      context: ./client
+    expose:
+      - "31337"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 512M
+          pids: 13

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История заказов</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/favicon1.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <h1>История заказов</h1>
+
+
+        <input type="checkbox" id="menu-toggle">
+
+
+        <label class="burger-menu" for="menu-toggle"></label>
+
+
+        <nav>
+            <a href="/">Главная</a>
+            <a href="profile">Профиль</a>
+            <a href="cart">Корзина</a>
+            <a href="orders">Активные заказы</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="orders-history">
+            <h2>Завершенные заказы</h2>
+            {{range .}}
+            <div class="order">
+                <p>Заказ ID: {{.ID}}</p>
+                <p>ФИО: {{.Name}}</p>
+                <p>Телефон: {{.Phone}}</p>
+                <p>Адрес: {{.Address}}</p>
+                <p>Комментарий: {{.Comment}}</p>
+                <p>Промокод: {{.PromoCode}}</p>
+                {{range .Items}}
+                    <div class="order-item">
+                        <p>Название: {{.Name}}</p>
+                        <img src="{{.ImageURL}}" alt="{{.Name}}">
+                        <p>Количество: {{.Quantity}}</p>
+                    </div>
+                {{else}}
+                    <p>В заказе нет товаров</p>
+                {{end}}
+                <p>Время доставки: {{.DeliveryTime}}</p>
+                <p>Статус: Доставлен</p>
+            </div>
+            <hr>
+            {{else}}
+                <p>Завершенные заказы отсутствуют</p>
+            {{end}}
+        </section>
+    </main>
+</body>
+</html>
