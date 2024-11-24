@@ -27,8 +27,8 @@
 #### Reverse
 
 - [Getting started](categories/reverse/rev-easy-crackme_java/solution/writeup.md)
-- [PDFScript](categories/reverse/rev-meduim-pdf_js/solution/writeup.md)
-- [Патрульный](categories/reverse/rev-meduim-speedhack_unity/solution/writeup.md)
+- [PDFScript](categories/reverse/rev-medium-pdf_js/solution/writeup.md)
+- [Патрульный](categories/reverse/rev-medium-speedhack_unity/solution/writeup.md)
 - [Прятки](categories/reverse/rev-hard-unused_asm_x86_64_func/solution/writeup.md)
 
 
